@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Question For You ✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Quicksand & Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        display: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FFF9F5',
+                        blush: '#FFE8EF',
+                        rosePastel: '#FF85A1',
+                        roseDeep: '#FF5C8A',
+                        lavenderSoft: '#EBE4F2',
+                        lavenderText: '#7D6B8F',
+                        cocoa: '#5A3D4C'
+                    },
+                    animation: {
+                        'float-slow': 'float 4s ease-in-out infinite',
+                        'wiggle': 'wiggle 1.8s ease-in-out infinite',
+                        'heartbeat': 'heartbeat 1.3s ease-in-out infinite',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                        'shake-cute': 'shakeCute 0.6s ease-in-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-10px) rotate(1.5deg)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-2deg)' },
+                            '50%': { transform: 'rotate(2deg)' },
+                        },
+                        heartbeat: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '25%': { transform: 'scale(1.08)' },
+                            '40%': { transform: 'scale(0.98)' },
+                            '60%': { transform: 'scale(1.06)' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        shakeCute: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '20%': { transform: 'translateX(-6px) rotate(-2deg)' },
+                            '40%': { transform: 'translateX(6px) rotate(2deg)' },
+                            '60%': { transform: 'translateX(-4px) rotate(-1deg)' },
+                            '80%': { transform: 'translateX(4px) rotate(1deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Sticker White Die-Cut Border Effect */
+        .cat-sticker {
+            filter: drop-shadow(0px 8px 16px rgba(255, 133, 161, 0.25));
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .cat-sticker:hover {
+            transform: scale(1.06) rotate(2deg);
+        }
+
+        /* Screen Fade & Scale Transitions */
+        .screen {
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .screen-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.94) translateY(12px);
+            position: absolute;
+            visibility: hidden;
+        }
+        .screen-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            position: relative;
+            visibility: visible;
+        }
+
+        /* Floating Particles Animation */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.6) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.85;
+            }
+            85% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(-15vh) scale(1.1) rotate(25deg);
+                opacity: 0;
+            }
+        }
+        .floating-particle {
+            position: fixed;
+            bottom: -40px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear forwards;
+        }
+
+        /* Cat Hug Shower Falling + Swaying + Gentle Bounce Animations */
+        @keyframes hugRainFall {
+            0% {
+                transform: translateY(-90px) scale(0.75);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            82% {
+                transform: translateY(88vh) scale(1.05);
+                opacity: 1;
+            }
+            91% {
+                transform: translateY(83vh) scale(1.12, 0.92);
+                opacity: 0.95;
+            }
+            100% {
+                transform: translateY(104vh) scale(0.95);
+                opacity: 0;
+            }
+        }
+        @keyframes hugSway {
+            0%, 100% {
+                transform: translateX(-18px) rotate(-12deg);
+            }
+            50% {
+                transform: translateX(18px) rotate(12deg);
+            }
+        }
+        .hug-shower-drop {
+            position: fixed;
+            top: -80px;
+            pointer-events: none;
+            z-index: 40;
+            animation: hugRainFall cubic-bezier(0.35, 0.05, 0.55, 0.95) forwards;
+            will-change: transform, opacity;
+        }
+        .hug-shower-sway {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            animation: hugSway ease-in-out infinite;
+            filter: drop-shadow(0 6px 12px rgba(255, 92, 138, 0.25));
+        }
+
+        /* Soft Polka Dot Background */
+        .bg-pastel-dots {
+            background-color: #FFF9F5;
+            background-image: radial-gradient(#FFD1DF 2px, transparent 2px), radial-gradient(#FFE3EC 2px, #FFF9F5 2px);
+            background-size: 44px 44px;
+            background-position: 0 0, 22px 22px;
+        }
+
+        /* Button Tactile Press */
+        .btn-cute {
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-cute:active {
+            transform: scale(0.93) !important;
+        }
+    </style>
+</head>
+<body class="bg-pastel-dots min-h-screen flex items-center justify-center p-4 overflow-x-hidden text-cocoa selection:bg-rosePastel selection:text-white">
+
+    <!-- Floating Hearts & Sparkles Container -->
+    <div id="particles-container" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+    <!-- Main Card Wrapper -->
+    <main class="relative z-10 w-full max-w-md mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-[2.25rem] shadow-[0_20px_50px_rgba(255,133,161,0.22)] border-4 border-white p-6 sm:p-10 text-center relative overflow-hidden">
+            
+            <!-- Decorative Corner Blobs -->
+            <div class="absolute -top-12 -left-12 w-32 h-32 bg-blush rounded-full opacity-60 pointer-events-none"></div>
+            <div class="absolute -bottom-12 -right-12 w-36 h-36 bg-blush rounded-full opacity-60 pointer-events-none"></div>
+
+            <!-- ========================================== -->
+            <!-- SCREEN 1: INITIAL LANDING SCREEN           -->
+            <!-- ========================================== -->
+            <section id="screen-ask" class="screen screen-visible flex flex-col items-center">
+                <!-- Cute Hopeful/Shy Cat Sticker SVG -->
+                <div class="w-48 h-48 sm:w-56 sm:h-56 mb-4 animate-float-slow cursor-pointer" onclick="wiggleSticker(this)">
+                    <svg viewBox="0 0 240 240" class="w-full h-full cat-sticker" xmlns="http://www.w3.org/2000/svg">
+                        <!-- White Die-Cut Sticker Outline -->
+                        <g stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+                            <path d="M62 85 L48 35 L95 62 Q120 55 145 62 L192 35 L178 85 Q195 110 190 142 Q185 182 120 185 Q55 182 50 142 Q45 110 62 85 Z" fill="#FFFFFF"/>
+                            <ellipse cx="95" cy="175" rx="22" ry="18" fill="#FFFFFF"/>
+                            <ellipse cx="145" cy="175" rx="22" ry="18" fill="#FFFFFF"/>
+                        </g>
+
+                        <!-- Floating Little Sparkles around Sticker -->
+                        <path d="M35 65 Q38 72 45 75 Q38 78 35 85 Q32 78 25 75 Q32 72 35 65 Z" fill="#FFD166"/>
+                        <path d="M202 58 Q204 63 209 65 Q204 67 202 72 Q200 67 195 65 Q200 63 202 58 Z" fill="#FF85A1"/>
+                        <circle cx="205" cy="110" r="4" fill="#FFD166"/>
+
+                        <!-- Cat Ears (Outer) -->
+                        <path d="M62 85 L48 35 L95 62 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        <path d="M178 85 L192 35 L145 62 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        
+                        <!-- Cat Ears (Inner Pink) -->
+                        <path d="M66 78 L57 48 L86 64 Z" fill="#FFB3C6"/>
+                        <path d="M174 78 L183 48 L154 64 Z" fill="#FFB3C6"/>
+
+                        <!-- Cute Calico / Cream Patch on Forehead -->
+                        <path d="M98 61 Q120 56 135 61 Q128 76 115 74 Q103 73 98 61 Z" fill="#FFE5D9"/>
+
+                        <!-- Cat Head Base -->
+                        <path d="M52 128 Q50 72 120 62 Q190 72 188 128 Q186 178 120 180 Q54 178 52 128 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5"/>
+
+                        <!-- Shy Eyebrows -->
+                        <path d="M78 96 Q86 91 95 95" fill="none" stroke="#5A3D4C" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M162 96 Q154 91 145 95" fill="none" stroke="#5A3D4C" stroke-width="3.5" stroke-linecap="round"/>
+
+                        <!-- Big Pleading Puppy-Cat Eyes -->
+                        <circle cx="88" cy="116" r="14" fill="#4A323E"/>
+                        <circle cx="152" cy="116" r="14" fill="#4A323E"/>
+                        <!-- Eye Sparkles -->
+                        <circle cx="83" cy="111" r="5" fill="#FFFFFF"/>
+                        <circle cx="93" cy="120" r="2.5" fill="#FFFFFF"/>
+                        <circle cx="147" cy="111" r="5" fill="#FFFFFF"/>
+                        <circle cx="157" cy="120" r="2.5" fill="#FFFFFF"/>
+
+                        <!-- Rosy Blush Cheeks -->
+                        <ellipse cx="70" cy="133" rx="12" ry="7" fill="#FF9EBB" opacity="0.65"/>
+                        <ellipse cx="170" cy="133" rx="12" ry="7" fill="#FF9EBB" opacity="0.65"/>
+
+                        <!-- Tiny Pink Nose & Shy ":3" Mouth -->
+                        <path d="M116 127 Q120 124 124 127 Q122 132 120 132 Q118 132 116 127 Z" fill="#FF85A1"/>
+                        <path d="M110 136 Q115 141 120 135 Q125 141 130 136" fill="none" stroke="#5A3D4C" stroke-width="3.5" stroke-linecap="round"/>
+
+                        <!-- Whiskers -->
+                        <line x1="36" y1="122" x2="54" y2="125" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="38" y1="133" x2="54" y2="132" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="204" y1="122" x2="186" y2="125" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="202" y1="133" x2="186" y2="132" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+
+                        <!-- Cute Shy Paws Held Together -->
+                        <ellipse cx="102" cy="172" rx="18" ry="15" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                        <ellipse cx="138" cy="172" rx="18" ry="15" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                        <!-- Paw Lines -->
+                        <path d="M97 176 L97 183 M105 176 L105 184" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M135 176 L135 184 M143 176 L143 183" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+
+                        <!-- Tiny Floating Heart Above Paws -->
+                        <path d="M120 154 C120 154 111 146 111 141 C111 138 114 136 117 136 C119 136 120 138 120 138 C120 138 121 136 123 136 C126 136 129 138 129 141 C129 146 120 154 120 154 Z" fill="#FF5C8A"/>
+                    </svg>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-cocoa leading-snug mb-2">
+                    Hey, do u wanna know something? 🥺✨
+                </h1>
+                <p id="ask-subtext" class="text-sm sm:text-base text-lavenderText font-medium mb-7">
+                    I have a super important secret to tell you...
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-4 w-full">
+                    <button id="btn-yes" onclick="goToScreen('yes')"
+                        class="btn-cute bg-gradient-to-r from-rosePastel to-roseDeep hover:from-roseDeep hover:to-rosePastel text-white font-display font-bold text-lg sm:text-xl px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(255,92,138,0.35)] hover:shadow-[0_12px_25px_rgba(255,92,138,0.48)] hover:-translate-y-1 cursor-pointer flex items-center gap-2">
+                        <span>Yes</span>
+                        <span>💖</span>
+                    </button>
+
+                    <button id="btn-no" onclick="goToScreen('no')"
+                        class="btn-cute bg-lavenderSoft hover:bg-[#E1D6EC] text-lavenderText font-display font-bold text-lg sm:text-xl px-8 py-3.5 rounded-full shadow-sm hover:-translate-y-0.5 cursor-pointer">
+                        No
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- ========================================== -->
+            <!-- SCREEN 2: "YES" CELEBRATION SCREEN         -->
+            <!-- ========================================== -->
+            <section id="screen-yes" class="screen screen-hidden flex flex-col items-center">
+                <!-- Subtle Back Button in Top Left -->
+                <button onclick="goToScreen('ask', false)" aria-label="Go back"
+                    class="self-start text-xs font-bold text-lavenderText/75 hover:text-roseDeep bg-blush/60 hover:bg-blush px-3 py-1.5 rounded-full transition-colors cursor-pointer mb-1 flex items-center gap-1">
+                    <span>←</span> <span>Back</span>
+                </button>
+
+                <!-- Happy Love-Struck Cat Hugging a Big Heart SVG Sticker -->
+                <div class="w-52 h-52 sm:w-60 sm:h-60 mb-3 animate-heartbeat cursor-pointer" onclick="triggerCatHugShower()">
+                    <svg viewBox="0 0 240 240" class="w-full h-full cat-sticker" xmlns="http://www.w3.org/2000/svg">
+                        <!-- White Die-Cut Sticker Outline -->
+                        <g stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+                            <path d="M62 82 L48 32 L95 59 Q120 52 145 59 L192 32 L178 82 Q195 107 190 139 Q185 182 120 195 Q55 182 50 139 Q45 107 62 82 Z" fill="#FFFFFF"/>
+                        </g>
+
+                        <!-- Decorative Floating Hearts around Sticker -->
+                        <path d="M32 58 C32 58 20 47 20 40 C20 35 24 32 28 32 C30 32 32 34 32 34 C32 34 34 32 36 32 C40 32 44 35 44 40 C44 47 32 58 32 58 Z" fill="#FF5C8A"/>
+                        <path d="M208 52 C208 52 197 42 197 36 C197 32 200 29 204 29 C206 29 208 31 208 31 C208 31 210 29 212 29 C216 29 219 32 219 36 C219 42 208 52 208 52 Z" fill="#FF85A1"/>
+                        <path d="M120 26 C120 26 112 19 112 14 C112 11 114 9 117 9 C119 9 120 11 120 11 C120 11 121 9 123 9 C126 9 128 11 128 14 C128 19 120 26 120 26 Z" fill="#FFB3C6"/>
+
+                        <!-- Cat Ears -->
+                        <path d="M62 82 L48 32 L95 59 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        <path d="M178 82 L192 32 L145 59 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        <path d="M66 75 L57 45 L86 61 Z" fill="#FFB3C6"/>
+                        <path d="M174 75 L183 45 L154 61 Z" fill="#FFB3C6"/>
+
+                        <!-- Cat Head Base -->
+                        <path d="M52 124 Q50 68 120 58 Q190 68 188 124 Q186 174 120 176 Q54 174 52 124 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5"/>
+
+                        <!-- Happy Closed Curved Eyes (^ ^) -->
+                        <path d="M74 112 Q86 98 98 112" fill="none" stroke="#5A3D4C" stroke-width="4.5" stroke-linecap="round"/>
+                        <path d="M142 112 Q154 98 166 112" fill="none" stroke="#5A3D4C" stroke-width="4.5" stroke-linecap="round"/>
+
+                        <!-- Extra Rosy Cheeks -->
+                        <ellipse cx="68" cy="124" rx="13" ry="8" fill="#FF759F" opacity="0.7"/>
+                        <ellipse cx="172" cy="124" rx="13" ry="8" fill="#FF759F" opacity="0.7"/>
+
+                        <!-- Happy Cat Smile -->
+                        <path d="M116 118 Q120 115 124 118 Q122 122 120 122 Q118 122 116 118 Z" fill="#FF85A1"/>
+                        <path d="M108 126 Q114 133 120 126 Q126 133 132 126" fill="none" stroke="#5A3D4C" stroke-width="3.5" stroke-linecap="round"/>
+
+                        <!-- Whiskers -->
+                        <line x1="36" y1="115" x2="54" y2="118" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="38" y1="126" x2="54" y2="125" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="204" y1="115" x2="186" y2="118" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="202" y1="126" x2="186" y2="125" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+
+                        <!-- Big Squishy Heart Being Hugged -->
+                        <path d="M120 202 C120 202 74 172 74 146 C74 132 85 123 98 123 C108 123 116 129 120 136 C124 129 132 123 142 123 C155 123 166 132 166 146 C166 172 120 202 120 202 Z"
+                              fill="#FF5C8A" stroke="#5A3D4C" stroke-width="4" stroke-linejoin="round"/>
+                        <!-- Heart Gloss Highlight -->
+                        <path d="M87 142 Q90 133 99 133" fill="none" stroke="#FFB3C6" stroke-width="3.5" stroke-linecap="round"/>
+
+                        <!-- Little Paws Hugging the Sides of the Heart -->
+                        <ellipse cx="78" cy="158" rx="14" ry="11" transform="rotate(-20 78 158)" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                        <ellipse cx="162" cy="158" rx="14" ry="11" transform="rotate(20 162 158)" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                    </svg>
+                </div>
+
+                <!-- Romantic Headline -->
+                <h1 class="font-display font-extrabold text-3xl sm:text-4xl text-roseDeep leading-tight mb-2">
+                    I Love You! ❤️🥰
+                </h1>
+                <p class="text-base sm:text-lg text-cocoa font-semibold mb-4">
+                    More than all the stars, treats, and naps in the world! ✨
+                </p>
+
+                <!-- Cute Interactive Love Pill -->
+                <button id="btn-extra-hugs" onclick="triggerCatHugShower()"
+                    class="btn-cute bg-blush hover:bg-[#FFD6E3] text-roseDeep font-display font-bold text-sm sm:text-base px-6 py-3 rounded-full border-2 border-rosePastel/50 shadow-[0_6px_16px_rgba(255,133,161,0.22)] cursor-pointer flex items-center gap-2">
+                    <span>Tap for extra hugs</span>
+                    <span>🫂🐱💕</span>
+                </button>
+            </section>
+
+
+            <!-- ========================================== -->
+            <!-- SCREEN 3: "NO" DRAMATIC POUTY SCREEN       -->
+            <!-- ========================================== -->
+            <section id="screen-no" class="screen screen-hidden flex flex-col items-center">
+                <!-- Dramatic Grumpy-Cute Pouting Cat Sticker SVG -->
+                <div id="grumpy-sticker" class="w-48 h-48 sm:w-56 sm:h-56 mb-4 animate-wiggle cursor-pointer" onclick="wiggleSticker(this)">
+                    <svg viewBox="0 0 240 240" class="w-full h-full cat-sticker" xmlns="http://www.w3.org/2000/svg">
+                        <!-- White Die-Cut Sticker Outline -->
+                        <g stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+                            <path d="M62 88 L46 42 L95 66 Q120 60 145 66 L194 42 L178 88 Q198 114 192 148 Q186 184 120 186 Q54 184 48 148 Q42 114 62 88 Z" fill="#FFFFFF"/>
+                        </g>
+
+                        <!-- Dramatic Anger/Pout Puff Marks -->
+                        <g stroke="#FF5C8A" stroke-width="3.5" stroke-linecap="round" fill="none">
+                            <path d="M188 32 Q192 40 200 40"/>
+                            <path d="M204 28 Q200 36 208 42"/>
+                            <path d="M186 48 Q194 46 198 54"/>
+                        </g>
+
+                        <!-- Cat Ears (Slightly Flattened Back) -->
+                        <path d="M62 88 L44 45 L95 66 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        <path d="M178 88 L196 45 L145 66 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5" stroke-linejoin="round"/>
+                        <path d="M66 81 L54 55 L86 68 Z" fill="#FFB3C6"/>
+                        <path d="M174 81 L186 55 L154 68 Z" fill="#FFB3C6"/>
+
+                        <!-- Puffed-Up Cheeks Cat Head Base -->
+                        <path d="M52 126 Q48 74 120 64 Q192 74 188 126 Q196 146 184 166 Q172 184 120 184 Q68 184 56 166 Q44 146 52 126 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4.5"/>
+
+                        <!-- Furrowed Angry-Cute Eyebrows -->
+                        <line x1="74" y1="98" x2="102" y2="108" stroke="#5A3D4C" stroke-width="4.5" stroke-linecap="round"/>
+                        <line x1="166" y1="98" x2="138" y2="108" stroke="#5A3D4C" stroke-width="4.5" stroke-linecap="round"/>
+
+                        <!-- Glaring Cute Eyes -->
+                        <circle cx="88" cy="118" r="12" fill="#4A323E"/>
+                        <circle cx="152" cy="118" r="12" fill="#4A323E"/>
+                        <!-- Eye Highlights -->
+                        <circle cx="84" cy="114" r="4" fill="#FFFFFF"/>
+                        <circle cx="148" cy="114" r="4" fill="#FFFFFF"/>
+
+                        <!-- Dramatic Anime Tear Drop -->
+                        <path d="M66 124 Q60 135 66 141 Q72 135 66 124 Z" fill="#8ECAE6" stroke="#5A3D4C" stroke-width="2.5"/>
+
+                        <!-- Puffed-up Blush Cheeks -->
+                        <ellipse cx="72" cy="142" rx="14" ry="9" fill="#FF85A1" opacity="0.65"/>
+                        <ellipse cx="168" cy="142" rx="14" ry="9" fill="#FF85A1" opacity="0.65"/>
+
+                        <!-- Grumpy Wavy Pout Mouth -->
+                        <path d="M116 131 Q120 128 124 131 Q122 135 120 135 Q118 135 116 131 Z" fill="#FF85A1"/>
+                        <path d="M104 148 Q112 140 120 146 Q128 140 136 148" fill="none" stroke="#5A3D4C" stroke-width="4" stroke-linecap="round"/>
+
+                        <!-- Whiskers (Tilted Downward in a Pout) -->
+                        <line x1="34" y1="132" x2="52" y2="130" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="36" y1="143" x2="52" y2="138" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="206" y1="132" x2="188" y2="130" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="204" y1="143" x2="188" y2="138" stroke="#5A3D4C" stroke-width="3" stroke-linecap="round"/>
+
+                        <!-- Crossed / Grumpy Little Paws -->
+                        <ellipse cx="104" cy="175" rx="17" ry="13" transform="rotate(12 104 175)" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                        <ellipse cx="136" cy="175" rx="17" ry="13" transform="rotate(-12 136 175)" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="4"/>
+                    </svg>
+                </div>
+
+                <!-- Dramatic Headline -->
+                <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-cocoa leading-snug mb-2">
+                    How dare you?! 😤🐾
+                </h1>
+                <p class="text-sm sm:text-base text-lavenderText font-semibold mb-7 px-2">
+                    Excuse me?! Wrong button detected! Go back and think about that again! 😾💢
+                </p>
+
+                <!-- Try Again Button -->
+                <button onclick="goToScreen('ask', true)"
+                    class="btn-cute bg-gradient-to-r from-rosePastel to-roseDeep hover:from-roseDeep hover:to-rosePastel text-white font-display font-bold text-lg px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(255,92,138,0.35)] hover:shadow-[0_12px_25px_rgba(255,92,138,0.48)] hover:-translate-y-1 cursor-pointer flex items-center gap-2">
+                    <span>Try Again</span>
+                    <span>🥺👉👈</span>
+                </button>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        let noClickCount = 0;
+        let heartInterval = null;
+
+        const screens = {
+            ask: document.getElementById('screen-ask'),
+            yes: document.getElementById('screen-yes'),
+            no: document.getElementById('screen-no')
+        };
+
+        const btnYes = document.getElementById('btn-yes');
+        const askSubtext = document.getElementById('ask-subtext');
+        const particlesContainer = document.getElementById('particles-container');
+
+        /**
+         * Transitions smoothly between screens ('ask', 'yes', 'no')
+         * @param {string} targetScreen - Key of the screen to show
+         * @param {boolean} fromNo - Whether returning from the "No" screen
+         */
+        function goToScreen(targetScreen, fromNo = false) {
+            // Hide all screens
+            Object.values(screens).forEach(screen => {
+                screen.classList.remove('screen-visible');
+                screen.classList.add('screen-hidden');
+            });
+
+            // Show target screen
+            const activeScreen = screens[targetScreen];
+            activeScreen.classList.remove('screen-hidden');
+            activeScreen.classList.add('screen-visible');
+
+            // Handle special behaviors per screen
+            if (targetScreen === 'yes') {
+                startCelebration();
+            } else {
+                stopCelebration();
+            }
+
+            if (targetScreen === 'no') {
+                noClickCount++;
+                const grumpySticker = document.getElementById('grumpy-sticker');
+                grumpySticker.classList.remove('animate-shake-cute');
+                void grumpySticker.offsetWidth; // trigger reflow
+                grumpySticker.classList.add('animate-shake-cute');
+            }
+
+            if (targetScreen === 'ask' && fromNo) {
+                // Make the "Yes" button slightly bigger & bouncier every time she returns from "No"!
+                const scaleFactor = Math.min(1 + noClickCount * 0.14, 1.55);
+                btnYes.style.transform = `scale(${scaleFactor})`;
+                btnYes.classList.add('animate-bounce-gentle');
+
+                const playfulHints = [
+                    "Hint: The pink button on the left is the right choice! 😉✨",
+                    "Pretty please? Look how big and shiny the Yes button is! 🥺💖",
+                    "My little cat heart can't take another 'No'! 😿💕"
+                ];
+                askSubtext.textContent = playfulHints[Math.min(noClickCount - 1, playfulHints.length - 1)];
+            }
+        }
+
+        /**
+         * Wiggles a cat sticker playfully when tapped
+         */
+        function wiggleSticker(el) {
+            el.classList.remove('animate-shake-cute');
+            void el.offsetWidth;
+            el.classList.add('animate-shake-cute');
+        }
+
+        /**
+         * Spawns a single floating heart or sparkle particle
+         */
+        function spawnParticle(isBurst = false) {
+            const symbols = ['❤️', '💖', '💕', '✨', '🌸', '🐾', '💗'];
+            const particle = document.createElement('span');
+            particle.className = 'floating-particle select-none';
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+            const size = isBurst ? (Math.random() * 18 + 18) : (Math.random() * 14 + 14);
+            const left = Math.random() * 96 + 2;
+            const duration = isBurst ? (Math.random() * 2.2 + 2.5) : (Math.random() * 3 + 4);
+
+            particle.style.fontSize = `${size}px`;
+            particle.style.left = `${left}vw`;
+            particle.style.animationDuration = `${duration}s`;
+
+            particlesContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        /**
+         * Starts continuous floating hearts on the "Yes" screen
+         */
+        function startCelebration() {
+            burstHearts();
+            if (!heartInterval) {
+                heartInterval = setInterval(() => spawnParticle(false), 380);
+            }
+        }
+
+        /**
+         * Stops continuous heart spawning when leaving "Yes" screen
+         */
+        function stopCelebration() {
+            if (heartInterval) {
+                clearInterval(heartInterval);
+                heartInterval = null;
+            }
+        }
+
+        /**
+         * Triggers a joyful burst of hearts & sparkles
+         */
+        function burstHearts() {
+            for (let i = 0; i < 16; i++) {
+                setTimeout(() => spawnParticle(true), i * 65);
+            }
+        }
+
+        /**
+         * Returns a mini die-cut SVG sticker of two cute cats hugging
+         */
+        function createMiniCatHugStickerSVG() {
+            return `
+                <svg viewBox="0 0 96 76" class="w-11 h-9 sm:w-12 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+                        <ellipse cx="34" cy="44" rx="22" ry="20" fill="#FFFFFF"/>
+                        <ellipse cx="62" cy="44" rx="22" ry="20" fill="#FFFFFF"/>
+                    </g>
+                    <!-- Cream Cat (Left) -->
+                    <path d="M18 32 L14 14 L30 24 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M48 32 L52 14 L36 24 Z" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="2.5" stroke-linejoin="round"/>
+                    <ellipse cx="33" cy="44" rx="20" ry="18" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="2.5"/>
+                    <path d="M23 41 Q27 36 31 41" fill="none" stroke="#5A3D4C" stroke-width="2.3" stroke-linecap="round"/>
+                    <path d="M36 41 Q40 36 44 41" fill="none" stroke="#5A3D4C" stroke-width="2.3" stroke-linecap="round"/>
+                    <ellipse cx="22" cy="46" rx="4" ry="2.5" fill="#FF85A1" opacity="0.75"/>
+                    <!-- Calico Peach Cat (Right) -->
+                    <path d="M48 32 L44 14 L60 24 Z" fill="#FFE5D9" stroke="#5A3D4C" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M78 32 L82 14 L66 24 Z" fill="#FFE5D9" stroke="#5A3D4C" stroke-width="2.5" stroke-linejoin="round"/>
+                    <ellipse cx="63" cy="44" rx="20" ry="18" fill="#FFE5D9" stroke="#5A3D4C" stroke-width="2.5"/>
+                    <path d="M52 41 Q56 36 60 41" fill="none" stroke="#5A3D4C" stroke-width="2.3" stroke-linecap="round"/>
+                    <path d="M65 41 Q69 36 73 41" fill="none" stroke="#5A3D4C" stroke-width="2.3" stroke-linecap="round"/>
+                    <ellipse cx="74" cy="46" rx="4" ry="2.5" fill="#FF85A1" opacity="0.75"/>
+                    <!-- Hugging Paws & Floating Heart -->
+                    <ellipse cx="48" cy="52" rx="7" ry="5" fill="#FFFDF9" stroke="#5A3D4C" stroke-width="2.2"/>
+                    <path d="M48 18 C48 18 41 12 41 8 C41 5.5 43 4 45.5 4 C47 4 48 5.5 48 5.5 C48 5.5 49 4 50.5 4 C53 4 55 5.5 55 8 C55 12 48 18 48 18 Z" fill="#FF5C8A"/>
+                </svg>
+            `;
+        }
+
+        /**
+         * Spawns a single falling & swaying cat hug item across the viewport
+         */
+        function spawnCatHugDrop() {
+            const hugEmojis = [ ];
+            const drop = document.createElement('div');
+            drop.className = 'hug-shower-drop select-none';
+
+            const inner = document.createElement('span');
+            inner.className = 'hug-shower-sway';
+
+            // 30% chance to spawn a custom hugging-cats die-cut sticker SVG!
+            if (Math.random() < 0.30) {
+                inner.innerHTML = createMiniCatHugStickerSVG();
+            } else {
+                inner.textContent = hugEmojis[Math.floor(Math.random() * hugEmojis.length)];
+                const fontSize = Math.floor(Math.random() * 18) + 26; // 26px to 44px
+                inner.style.fontSize = `${fontSize}px`;
+            }
+
+            const leftPos = Math.random() * 94 + 2;
+            const fallDuration = (Math.random() * 2.2 + 2.8).toFixed(2);
+            const swayDuration = (Math.random() * 1.1 + 1.1).toFixed(2);
+            const swayDelay = (Math.random() * -1.5).toFixed(2);
+
+            drop.style.left = `${leftPos}vw`;
+            drop.style.animationDuration = `${fallDuration}s`;
+            inner.style.animationDuration = `${swayDuration}s`;
+            inner.style.animationDelay = `${swayDelay}s`;
+
+            drop.appendChild(inner);
+            document.body.appendChild(drop);
+
+            setTimeout(() => {
+                drop.remove();
+            }, parseFloat(fallDuration) * 1000 + 100);
+        }
+
+        /**
+         * Triggers a full-screen shower of cat hug emojis, custom hugging cat stickers, and heart bursts
+         */
+        function triggerCatHugShower() {
+            burstHearts();
+
+            const btn = document.getElementById('btn-extra-hugs');
+            if (btn) {
+                btn.classList.remove('animate-shake-cute');
+                void btn.offsetWidth;
+                btn.classList.add('animate-shake-cute');
+            }
+
+            // Shower 34 staggered cat hug drops across the full screen
+            for (let i = 0; i < 34; i++) {
+                setTimeout(() => {
+                    spawnCatHugDrop();
+                }, i * 55);
+            }
+        }
+
+        // Spawn a few gentle ambient sparkles on initial load
+        window.addEventListener('DOMContentLoaded', () => {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => spawnParticle(false), i * 500);
+            }
+        });
+    </script>
+</body>
+</html>
